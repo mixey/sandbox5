@@ -1,0 +1,98 @@
+[
+    {
+        "id": 1,
+        "text": "Node1",
+        "state": {
+            "opened": true
+        },
+        "children": [
+            {
+                "id": 2,
+                "text": "Node2",
+                "state": {}
+            },
+            {
+                "id": 3,
+                "text": "Node3",
+                "state": {}
+            },
+            {
+                "id": 4,
+                "text": "Node4",
+                "state": {
+                    "opened": true
+                },
+                "children": [
+                    {
+                        "id": 5,
+                        "text": "Node5",
+                        "state": {}
+                    },
+                    {
+                        "id": 6,
+                        "text": "Node6",
+                        "state": {
+                            "opened": true
+                        },
+                        "children": [
+                            {
+                                "id": 10,
+                                "text": "Node10",
+                                "state": {}
+                            },
+                            {
+                                "id": 11,
+                                "text": "Node11",
+                                "state": {
+                                    "opened": true
+                                },
+                                "children": [
+                                    {
+                                        "id": 14,
+                                        "text": "Node14",
+                                        "state": {}
+                                    },
+                                    {
+                                        "id": 15,
+                                        "text": "Node15",
+                                        "state": {}
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "id": 7,
+                        "text": "Node7",
+                        "state": {
+                            "opened": true
+                        },
+                        "children": [
+                            {
+                                "id": 12,
+                                "text": "Node12",
+                                "state": {}
+                            },
+                            {
+                                "id": 13,
+                                "text": "Node13",
+                                "state": {}
+                            }
+                        ]
+                    },
+                    {
+                        "id": 8,
+                        "text": "Node8",
+                        "state": {}
+                    }
+                ]
+
+            },
+            {
+                "id": 9,
+                "text": "Node9",
+                "state": {}
+            }
+        ]
+    }
+]

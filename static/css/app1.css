@@ -1,0 +1,16 @@
+.demo-tree {
+    height: 400px;
+    margin: 10px;
+    overflow-y: auto;
+    border: 1px solid #39a9db;
+}
+
+.demo-tree-container {
+    width: 350px;
+    float: left;
+    display: block;
+}
+
+.demo-bottom-panel {
+    margin: 10px;
+}

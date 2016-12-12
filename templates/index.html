@@ -1,0 +1,39 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sandbox5</title>
+
+    <link rel="stylesheet" href="{% static "css/style.min.css" %}"/>
+    <link rel="stylesheet" href="{% static "css/app1.css" %}"/>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="{% static 'js/jstree.js' %}"></script>
+    <script src="{% static 'js/app1.js' %}"></script>
+</head>
+
+<body>
+
+<div>
+    <div class="demo-tree-container">
+        <div id="jstree_cached" class="demo-tree"></div>
+        <div class="demo-bottom-panel">
+            <button class="add-node">+</button>
+            <button class="edit-node">*</button>
+            <button class="delete-node">-</button>
+            <button class="submit">Apply</button>
+            <button class="reset">Reset</button>
+        </div>
+    </div>
+    <div class="demo-tree-container">
+        <div id="jstree_db" class="demo-tree"></div>
+        <div class="demo-bottom-panel">
+            <div>*Double click to move node</div>
+        </div>
+    </div>
+</div>
+{% csrf_token %}
+</body>
+</html>
