@@ -8,7 +8,6 @@
     var dbDataSource;
     var cachedDataSource;
     var movedNodes;
-    var hasChanges;
     var increment;
 
     // init controls
@@ -48,9 +47,6 @@
 
         $(".submit").click(function () {
             submit();
-            reset();
-            setIncrement(dbDataSource.data);
-            refreshCachedTree();
         });
 
         $(".reset").click(function () {
@@ -116,8 +112,9 @@
     function addNode() {
         if (cachedSelectedNode != null && cachedSelectedNode.state["disabled"]) return;
 
-        insertNode(cachedSelectedNode, cachedDataSource, createNode(null));
-        hasChanges = true;
+        var newNode = createNode(null);
+        insertNode(cachedSelectedNode, cachedDataSource, newNode);
+        movedNodes.push(newNode.id.toString());
 
         refreshCachedTree();
     }
@@ -150,13 +147,12 @@
 
     // delete selected node
     function deleteNode() {
-        if (cachedSelectedNodeHtml == null) return;
+        if (cachedSelectedNode == null) return;
 
         cachedSelectedNode.state["selected"] = false;
         cachedSelectedNode.state["disabled"] = true;
         markAsDeletedData(cachedSelectedNode.id, cachedDataSource, true);
-
-        hasChanges = true;
+        cachedSelectedNode = null;
 
         refreshCachedTree();
     }
@@ -166,7 +162,6 @@
         for (var i = 0; i < source.length; i++) {
             if (searchId == null || source[i].id == searchId) {
                 source[i].state["disabled"] = value;
-                source[i]["removed"] = value;
 
                 markAsDeletedData(null, source[i].children, value);
 
@@ -208,11 +203,6 @@
 
     // move node from DBTree to cachedTree
     function moveNode() {
-        if (hasChanges) {
-            alert("You have unsaved data. Please apply changes and try again.");
-            return;
-        }
-
         // check on double entry
         if (dbSelectedNode == null || movedNodes.indexOf(dbSelectedNode.id) != -1) return;
 
@@ -235,7 +225,28 @@
         cachedDataSource = [];
         movedNodes = [];
         increment = 0;
-        hasChanges = false;
+    }
+
+    // collect deleted Ids
+    function findDeletedIds(source, result) {
+        for (var i = 0; i < source.length; i++) {
+            if (source[i].state["disabled"])
+                result.push(source[i].id);
+
+            if (source[i].hasOwnProperty("children"))
+                findDeletedIds(source[i].children, result);
+        }
+    }
+
+    // remove property from object
+    function deleteProp(source, propName) {
+        for (var i = 0; i < source.length; i++) {
+            if (source[i].hasOwnProperty(propName))
+                delete source[i][propName];
+
+            if (source[i].hasOwnProperty("children"))
+                deleteProp(source[i].children, propName);
+        }
     }
 
     // apply local changes
@@ -250,6 +261,16 @@
             success: function (response) {
                 dbDataSource = {"data": response};
                 refreshDBTree();
+
+                deleteProp(cachedDataSource, "is_new");
+                cachedSelectedNode = null;
+                var deletedIds = [];
+                findDeletedIds(response, deletedIds);
+                for (var i = 0; i < deletedIds.length; i++) {
+                    markAsDeletedData(deletedIds[i], cachedDataSource, true);
+                }
+                refreshCachedTree();
+
             },
             error: function (event) {
                 console.log(event);
